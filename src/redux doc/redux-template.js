@@ -35,7 +35,7 @@ user_action.ls = {
         type: 'SET_CURRENT_USER',
         payload: user
     })
-    
+    // payload is optional if true/false , dont need to have payload 
 }
 
 
@@ -62,12 +62,21 @@ user_reducer.jsx = {
         setCurrentUser : user => dispatch(setCurrentUser (user) )
       })
   
+      const mapDispatchToProps = dispatch =>({
+        toggleCartHidden : ()=> dispatch(toggleCartHidden() )
+      }); // onClick = {toggleCartHidden} // pass props 
   
 
-  const mapStateToProps = (state) => ({
-    currentUser: state.user.currentUser
+  const mapStateToProps = (state ) => ({
+    currentUser: state.user.currentUser,
+    hidden: state.cart.hidden, 
   
-  })
+  }) // same as below
+
+  const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+    currentUser,
+    hidden
+  });
   
   export default connect (null, mapDispatchToProps)(App);
   export default connect(mapStateToProps) (Header); }
