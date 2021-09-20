@@ -72,6 +72,15 @@ user_reducer.jsx = {
         toggleCartHidden : ()=> dispatch(toggleCartHidden() )
       }); // onClick = {toggleCartHidden} // pass props 
       //onClick= {() =>addItem (item)}//
+      // if only one action, do not need to pass mapdispatch to props to connect, just leave it blank.
+
+      pass a dispatch props then {
+      <CustomButton onClick = {()=> {
+        history.push('/checkout');
+        dispatch(toggleCartHidden())
+        }}>CHECKOUT</CustomButton>}
+      
+
   
 
   const mapStateToProps = (state ) => ({
