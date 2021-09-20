@@ -48,6 +48,12 @@ user_reducer.jsx = {
           ...state,
           currentUser: action.payload
         };
+
+        case CartActionTypes.ADD_ITEM :
+          return {
+            ...state,
+            cartItems: addItemToCart(state.cartItems,action.payload)
+          };// additemtocart from utils.js 
       default:
         return state;
     }
@@ -65,6 +71,7 @@ user_reducer.jsx = {
       const mapDispatchToProps = dispatch =>({
         toggleCartHidden : ()=> dispatch(toggleCartHidden() )
       }); // onClick = {toggleCartHidden} // pass props 
+      //onClick= {() =>addItem (item)}//
   
 
   const mapStateToProps = (state ) => ({
@@ -80,3 +87,57 @@ user_reducer.jsx = {
   
   export default connect (null, mapDispatchToProps)(App);
   export default connect(mapStateToProps) (Header); }
+
+
+  use of find () and map () = {
+    export const addItemToCart = (cartItems, cartItemToAdd) => {
+      const existingCartItem = cartItems.find(
+        cartItem => cartItem.id === cartItemToAdd.id
+      );
+    
+      if (existingCartItem) {
+        return cartItems.map(cartItem =>
+          cartItem.id === cartItemToAdd.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      }
+    
+      return [...cartItems, { ...cartItemToAdd, quantity: 1 }];
+    };
+  }
+
+  use of reduce ()
+  {
+    const mapStateToProps = ({ cart: { cartItems } }) => ({
+      itemCount: cartItems.reduce((acc,cartItem)=> acc + cartItem.quantity,0)
+    }); // reduce ((), 0)
+  }
+
+  reselect library
+  npm install reselect 
+
+  import { createSelector} from "reselect";
+
+
+const selectCart = state => state.cart;
+
+export const selectCartItems = createSelector(
+    [selectCart], // [item1, item2], (cart, user)
+    (cart)=> cart.cartItems
+);
+
+export const selectCartItemCount = createSelector(
+    [selectCartItems],
+    cartItems=> cartItems.reduce ((acc,cartItem)=>acc + cartItem.quantity,0)
+);
+const mapStateToProps = (state) => ({
+  itemCount: selectCartItemCount(state)
+});// pass the state as props in selectors , import the selector before use it; 
+
+import { createStructuredSelector } from 'reselect';
+const mapStateToProps = createStructuredSelector ({
+  currentUser: selectCurrentUser,
+  hidden:selectCartHidden
+
+})// do not need to pass state , just use createstructuredselector ()

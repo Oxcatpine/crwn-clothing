@@ -15,6 +15,8 @@ import SignInAndSignUpPage from './pages/sign-in/sign-in-and-sign-up.component';
 import {auth, createUserProfileDocument} from './firebase/firebase.utils';
 import {setCurrentUser} from './redux/user/user.action';
 import {connect} from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import {selectCurrentUser}from './redux/user/user.selectors';
 
 
 
@@ -65,8 +67,9 @@ class App extends React.Component  {
   }
   
 }
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = createStructuredSelector ({
+  currentUser: selectCurrentUser
+  
 
 })
 
