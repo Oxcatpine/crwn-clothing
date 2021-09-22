@@ -122,6 +122,9 @@ user_reducer.jsx = {
       itemCount: cartItems.reduce((acc,cartItem)=> acc + cartItem.quantity,0)
     }); // reduce ((), 0)
   }
+  use of filter (when to remove an item) {
+    cartItems: state.cartItems.filter(item => item.id !== action.payload.id)
+  }
 
   reselect library
   npm install reselect 
